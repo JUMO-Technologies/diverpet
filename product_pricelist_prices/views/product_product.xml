@@ -8,11 +8,11 @@
             <field name="arch" type="xml">   
                 <field name="lst_price" position="after">
                     <field name="pricelists" nolabel="1" colspan="2" context="{'product_id': active_id}">
-                        <tree string="Sale Prices" name="sale_prices" editable="bottom" create="false" delete="false" colors="red:product_price_manual">
+                        <tree string="Sale Prices" name="sale_prices" editable="bottom"  colors="red:product_price_manual">
                             <field name="name" readonly="1"/>
-                            <field name="product_price_manual" invisible="1"/>
+                            <field name="product_price_manual"/>
                             <field name="product_price"/>
-                            <button  type="object" icon="fa-heartbeat"
+                            <button  type="object" class="oi-close"
                                      name="remove_price_manual"
                             />
                         </tree>

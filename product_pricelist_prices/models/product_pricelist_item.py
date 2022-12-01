@@ -26,11 +26,11 @@ class ProductPricelistItem(models.Model):
         return super(ProductPricelistItem, self).unlink()
 
 
-    def write(self, vals):
+    def write(self, vals_list):
         self.change_product()
-        return super(ProductPricelistItem, self).write(vals)
+        return super(ProductPricelistItem, self).write(vals_list)
 
-
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         self.change_product()
-        return super(ProductPricelistItem, self).create(vals)
+        return super(ProductPricelistItem, self).create(vals_list)

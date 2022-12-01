@@ -18,9 +18,10 @@ class product_pricelist(models.Model):
             string="Price"
     )
     product_price_manual = fields.Boolean(
-            compute="get_price_manual",
+            #compute="get_price_manual",
             # inverse="_set_price_manual",
             string="Manual Price",
+            default=False,
 
     )
     product_id = fields.Integer(
@@ -57,20 +58,17 @@ class product_pricelist(models.Model):
 
     def _get_price_manual(self):
         product_id = self._get_product_id()
-
-        if self._context.get('product_id') and \
-                self.env['product.pricelist.item'].search(
+        if self.env.context.get('product_id') and self.env['product.pricelist.item'].search(
                         [
                             ('pricelist_id', '=', self.id),
-                            ('product_id', '=', self._context.get('product_id'))
+                            ('product_id', '=', self.env.context('product_id'))
                         ]
                 ):
             self.product_price_manual = True
-        if self._context.get('product_template_id') and \
-                self.env['product.pricelist.item'].search(
+        if self.env.context.get('product_template_id') and self.env['product.pricelist.item'].search(
                         [
                             ('pricelist_id', '=', self.id),
-                            ('product_tmpl_id', '=', self._context.get('product_template_id'))
+                            ('product_tmpl_id', '=', self.env.context('product_template_id'))
                         ]
                 ):
             self.product_price_manual = True
@@ -84,10 +82,14 @@ class product_pricelist(models.Model):
     def _get_product_price(self):
         product_id = self._get_product_id()
         if product_id:
-            self.product_price = self.price_get(
-                    product_id, 1).get(self.id, 0.0
+          if self.env['product.template'].search([('id', '=', product_id)]):
+            self.product_price = self._price_get(
+                self.env['product.template'].search([('id', '=', product_id)]), 1).get(self.id, 0.0
             )
-            self.product_id = product_id
+          else:
+              self.product_price = self._price_get(
+                  self.env['product.product'].search([('id', '=', product_id)]), 1).get(self.id, 0.0)
+          self.product_id = product_id
 
     def _set_product_price(self):
         # Real change takes place in price_set after inverse
@@ -127,16 +129,17 @@ class product_pricelist(models.Model):
                         ('pricelist_id', '=', self.id)
                     ]
             )
-            product_price_type_ids = self.env['product.price.type'].search(
-                    [
-                        ('field', '=', 'list_price')
-                    ]
-            )
+            # product_price_type_ids = self.env['product.price.type'].search(
+            #         [
+            #             ('field', '=', 'list_price')
+            #         ]
+            # )
+
             if not items:
                 self.env['product.pricelist.item'].create(
                         {
-                            'base': product_price_type_ids and product_price_type_ids[0].id,
-                            'sequence': 1,
+                            'base': 'list_price',
+                            #'sequence': 1,
                             'name': product_template.name,
                             'product_tmpl_id': product_template.id,
                             'pricelist_id': self.id,
@@ -148,8 +151,8 @@ class product_pricelist(models.Model):
                 for item in items:
                     item.write(
                             {
-                                'base': product_price_type_ids and product_price_type_ids[0].id,
-                                'sequence': 1,
+                                'base': 'list_price',
+                                #'sequence': 1,
                                 'name': product_template.name,
                                 'product_tmpl_id': product_template.id,
                                 'pricelist_id': self.id,
@@ -162,13 +165,16 @@ class product_pricelist(models.Model):
     @api.model
     def price_remove(self, product_template_id):
         items = self.env['product.pricelist.item'].search(
-                    [
-                        ('product_tmpl_id', '=', product_template_id)
-                    ]
+            []
         )
+        for i in self.env['product.template'].search([('id', '=', product_template_id)]):
+          items = self.env['product.pricelist.item'].sudo().search(
+                    [
+                        ('product_tmpl_id', '=', i.id)
+                    ]
+          )
         _logger.debug("Items: %s", items)
         for item in items:
             _logger.debug("Remove Item: %s", item)
             item.unlink()
-
         return True

@@ -24,14 +24,15 @@ class ProductTemplate(models.Model):
                 ]
         )
 
+
     def _set_pricelists(self):
         for pricelist in self.pricelists:
             if pricelist.product_price:
                 _logger.debug("Updating Price: %s", pricelist.product_price)
                 pricelist.price_set(self, pricelist.product_price)
-    
+
     pricelists = fields.One2many(
-            comodel_name="product.pricelist",
+            'product.pricelist',
             string="Pricelists",
             compute="get_pricelists",
             inverse="_set_pricelists"
