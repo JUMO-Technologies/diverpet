@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Top menu item -->
+  <menuitem id="main_animal_menu" name="EquiClinic" web_icon="veterinary,static/description/icon.png" sequence="1"/>
+
+  <!-- Menu item Animal -->
+  <menuitem id="animal_menu" name="Animal" parent="main_animal_menu" sequence="2"/>
+
+  <!-- Menu item Owners -->
+  <menuitem id="menu_animal_customer" name="Owners" parent="animal_menu" action="base.action_partner_customer_form" sequence="4"/>
+
+  <!-- Menu item Configuration -->
+  <menuitem id="veterinary_configuration" name="Configuration" parent="main_animal_menu" sequence="40"/>
+
+</odoo>

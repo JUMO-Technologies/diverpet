@@ -1,0 +1,9 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_animal_user,veterinary.animal user,model_veterinary_animal,veterinary.group_veterinary_user,1,1,1,0
+access_animal_manager,veterinary.animal manager,model_veterinary_animal,veterinary.group_veterinary_manager,1,1,1,1
+access_appointment_user,veterinary.appointment user,model_veterinary_appointment,veterinary.group_veterinary_user,1,1,1,0
+access_appointment_manager,veterinary.appointment manager,model_veterinary_appointment,veterinary.group_veterinary_manager,1,1,1,1
+access_evaluation_user,veterinary.evaluation user,model_veterinary_evaluation,veterinary.group_veterinary_user,1,1,0,0
+access_evaluation_manager,veterinary.evaluation manager,model_veterinary_evaluation,veterinary.group_veterinary_manager,1,1,1,1
+access_evaluation_stages_user,veterinary.evaluation.stages user,model_veterinary_evaluation_stages,veterinary.group_veterinary_user,1,0,0,0
+access_evaluation_stages_manager,veterinary.evaluation.stages manager,model_veterinary_evaluation_stages,veterinary.group_veterinary_manager,1,1,1,1
