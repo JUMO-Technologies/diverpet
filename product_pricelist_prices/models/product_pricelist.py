@@ -79,17 +79,17 @@ class product_pricelist(models.Model):
             rec._get_product_price()
 
 
-    def _get_product_price(self):
-        product_id = self._get_product_id()
-        if product_id:
-          if self.env['product.template'].search([('id', '=', product_id)]):
-            self.product_price = self._price_get(
-                self.env['product.template'].search([('id', '=', product_id)]), 1).get(self.id, 0.0
-            )
-          else:
-              self.product_price = self._price_get(
-                  self.env['product.product'].search([('id', '=', product_id)]), 1).get(self.id, 0.0)
-          self.product_id = product_id
+    # def _get_product_price(self):
+    #     product_id = self._get_product_id()
+    #     if product_id:
+    #       if self.env['product.template'].search([('id', '=', product_id)]):
+    #         self.product_price = self._price_get(
+    #             self.env['product.template'].search([('id', '=', product_id)]), 1).get(self.id, 0.0
+    #         )
+    #       else:
+    #           self.product_price = self._price_get(
+    #               self.env['product.product'].search([('id', '=', product_id)]), 1).get(self.id, 0.0)
+    #       self.product_id = product_id
 
     def _set_product_price(self):
         # Real change takes place in price_set after inverse

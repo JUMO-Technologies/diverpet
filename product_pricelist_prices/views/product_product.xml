@@ -7,14 +7,27 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">   
                 <field name="lst_price" position="after">
-                    <field name="pricelists" nolabel="1" colspan="2" context="{'product_id': active_id}">
-                        <tree string="Sale Prices" name="sale_prices" editable="bottom"  colors="red:product_price_manual">
-                            <field name="name" readonly="1"/>
-                            <field name="product_price_manual"/>
-                            <field name="product_price"/>
-                            <button  type="object" class="oi-close"
-                                     name="remove_price_manual"
-                            />
+                    <field name="pricelists" nolabel="1" colspan="2">
+                        <tree string="Sale Prices" name="sale_prices">
+                            <field name="pricelist_id" />
+                            <field name="price"/>
+                        </tree>
+                    </field>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="product_normal_form_view_easy" model="ir.ui.view">
+            <field name="name">ProductNormalFormView easy</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="before">
+                    <field name="pricelists" nolabel="1" colspan="2">
+                        <tree string="Sale Prices" name="sale_prices">
+                            <field name="pricelist_id" />
+                            <field name="price"/>
                         </tree>
                     </field>
                 </field>

@@ -14,8 +14,17 @@ class ProductTemplate(models.Model):
 
     def get_pricelists(self):
         for rec in self:
-            rec._get_pricelists()
-
+            pricelist_ids = self.env['product.pricelist'].search([('show_on_products', '=', True)])
+            details = [(5,0, 0)]
+            if not len(rec.product_variant_ids) > 1:
+                for pricelist in pricelist_ids:
+                    price = pricelist._get_product_price(rec, 1.0)
+                    l_actuales = self.env['product.pricelist.detail'].search([('product_tmpl_id', '=', rec.id), ('pricelist_id', '=', pricelist.id)])
+                    if l_actuales:
+                        l_actuales.unlink()
+                    l = self.env['product.pricelist.detail'].create({'pricelist_id': pricelist.id, 'product_tmpl_id': rec.id, 'price': price})
+                    details.append((4,l.id))
+            rec.pricelists = details
 
     def _get_pricelists(self):
         self.pricelists = self.env['product.pricelist'].search(
@@ -32,8 +41,7 @@ class ProductTemplate(models.Model):
                 pricelist.price_set(self, pricelist.product_price)
 
     pricelists = fields.One2many(
-            'product.pricelist',
+            'product.pricelist.detail',
             string="Pricelists",
-            compute="get_pricelists",
-            inverse="_set_pricelists"
+            compute="get_pricelists"
     )

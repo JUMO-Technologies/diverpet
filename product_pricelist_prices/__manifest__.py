@@ -16,6 +16,7 @@
     'version': '0.1',
     'depends': ['base','product'],
     'data': [
+        'security/ir.model.access.csv',
         'views/product_pricelist.xml',
         'views/product_product.xml',
         'views/product_template.xml',
