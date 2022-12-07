@@ -8,8 +8,9 @@
             <field name="arch" type="xml">
                 <field name="list_price" position="after">
                     <field name="pricelists" nolabel="1" colspan="2" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
-                        <tree string="Sale Prices" name="sale_prices">
-                            <field name="pricelist_id" />
+                        <tree string="Sale Prices" name="sale_prices"  editable="bottom">
+                            <field name="pricelist_id"  readonly="1" force_save="1"/>
+                            <field name="manual_price" />
                             <field name="price"/>
                         </tree>
                     </field>

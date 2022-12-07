@@ -7,9 +7,10 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">   
                 <field name="lst_price" position="after">
-                    <field name="pricelists" nolabel="1" colspan="2">
-                        <tree string="Sale Prices" name="sale_prices">
-                            <field name="pricelist_id" />
+                    <field name="pricelists" nolabel="1" colspan="2" >
+                        <tree string="Sale Prices" name="sale_prices" editable="bottom">
+                            <field name="pricelist_id" readonly="1" force_save="1"/>
+                            <field name="manual_price" />
                             <field name="price"/>
                         </tree>
                     </field>
@@ -25,8 +26,9 @@
             <field name="arch" type="xml">
                 <field name="standard_price" position="before">
                     <field name="pricelists" nolabel="1" colspan="2">
-                        <tree string="Sale Prices" name="sale_prices">
+                        <tree string="Sale Prices" name="sale_prices" editable="bottom">
                             <field name="pricelist_id" />
+                            <field name="manual_price" />
                             <field name="price"/>
                         </tree>
                     </field>
