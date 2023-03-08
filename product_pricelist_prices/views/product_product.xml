@@ -5,16 +5,18 @@
             <field name="name">ProductNormalFormView</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
-            <field name="arch" type="xml">   
-                <field name="lst_price" position="after">
-                    <field name="pricelists" nolabel="1" colspan="2" >
-                        <tree string="Sale Prices" name="sale_prices" editable="bottom">
-                            <field name="pricelist_id" readonly="1" force_save="1"/>
-                            <field name="manual_price" />
-                            <field name="price"/>
-                        </tree>
-                    </field>
-                </field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='pricing']" position="after">
+                    <label for="pricelist_ids" string="Lista de precios"/>
+                    <div name="pricelist">
+                        <field name="pricelist_ids" no_label="1" class="oe_inline">
+                            <tree editable="bottom">
+                                <field name="pricelist_id"/>
+                                <field name="fixed_price"/>
+                            </tree>
+                        </field>
+                    </div>
+                </xpath>
 
             </field>
         </record>
@@ -24,16 +26,17 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
             <field name="arch" type="xml">
-                <field name="standard_price" position="before">
-                    <field name="pricelists" nolabel="1" colspan="2">
-                        <tree string="Sale Prices" name="sale_prices" editable="bottom">
-                            <field name="pricelist_id" />
-                            <field name="manual_price" />
-                            <field name="price"/>
-                        </tree>
-                    </field>
-                </field>
-
+                <xpath expr="//label[@for='standard_price']" position="before">
+                    <label for="pricelist_ids" string="Lista de precios"/>
+                    <div name="pricelist">
+                        <field name="pricelist_ids" no_label="1" class="oe_inline">
+                            <tree editable="bottom">
+                                <field name="pricelist_id"/>
+                                <field name="fixed_price"/>
+                            </tree>
+                        </field>
+                    </div>
+                </xpath>
             </field>
         </record>
 
