@@ -14,7 +14,7 @@
     'website': "http://www.ictstudio.eu",
     'category': 'Sales Management',
     'version': '0.1',
-    'depends': ['base','product'],
+    'depends': ['base', 'product', 'account'],
     'data': [
         'security/ir.model.access.csv',
         'views/product_pricelist.xml',
